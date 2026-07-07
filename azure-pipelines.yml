@@ -1,0 +1,128 @@
+trigger:
+
+- master
+ 
+pool:
+
+  vmImage: 'ubuntu-latest'
+ 
+variables:
+
+  nodeVersion: '22.x'
+ 
+steps:
+ 
+# Checkout latest source code
+
+- checkout: self
+
+  clean: true
+
+  fetchDepth: 0
+ 
+# Install Node.js
+
+- task: UseNode@1
+
+  inputs:
+
+    version: '$(nodeVersion)'
+
+  displayName: 'Install Node.js'
+ 
+# Debug repository structure
+
+- script: |
+
+    echo "===== Current Directory ====="
+
+    pwd
+
+    echo ""
+
+    echo "===== Repository Structure ====="
+
+    find .
+
+    echo ""
+
+    echo "===== frontend ====="
+
+    ls -la frontend
+
+    echo ""
+
+    echo "===== frontend/employee ====="
+
+    ls -la frontend/employee
+
+  displayName: 'Debug Repository Structure'
+ 
+# Install Angular dependencies
+
+- script: |
+
+    npm install
+
+  workingDirectory: 'frontend/employee'
+
+  displayName: 'Install Angular Packages'
+ 
+# Build Angular
+
+- script: |
+
+    npm run build
+
+  workingDirectory: 'frontend/employee'
+
+  displayName: 'Build Angular'
+ 
+# Publish Angular artifact
+
+- task: PublishBuildArtifacts@1
+
+  inputs:
+
+    PathtoPublish: 'frontend/employee/dist'
+
+    ArtifactName: 'Angular'
+
+    publishLocation: 'Container'
+
+  displayName: 'Publish Angular Artifact'
+ 
+# Build Spring Boot
+
+- task: Maven@4
+
+  inputs:
+
+    mavenPomFile: 'backend/demo/pom.xml'
+
+    goals: 'clean package -DskipTests'
+
+    javaHomeOption: 'JDKVersion'
+
+    jdkVersionOption: '21'
+
+    mavenVersionOption: 'Default'
+
+    publishJUnitResults: false
+
+  displayName: 'Build Spring Boot'
+ 
+# Publish Spring Boot artifact
+
+- task: PublishBuildArtifacts@1
+
+  inputs:
+
+    PathtoPublish: 'backend/demo/target'
+
+    ArtifactName: 'SpringBoot'
+
+    publishLocation: 'Container'
+
+  displayName: 'Publish Spring Boot Artifact'
+ 
