@@ -1,0 +1,67 @@
+.register-wrapper
+{
+    height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ffecd2,#fcb69f);
+    font-family: Arial,sans-serif;
+}
+.register-card
+{
+    width:400px;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,2);
+}
+.title
+{
+    text-align: center;
+    margin-bottom: 5px;
+    color: #d35400;
+}
+.subtitle
+{
+    text-align: center;
+    margin-bottom: 20px;
+    color:gray;
+}
+.form-group
+{
+    margin-bottom: 15px;
+}
+label{
+    font-size:14px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+input,select{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+input:focus, select:focus{
+    border-color: #d35400;
+}
+
+.register-btn
+{
+    width:100%;
+    padding: 10px;
+    background: #d35400;
+    color:white;
+    border:none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+
+}
+.register-btn-hover
+{
+    background: #a84300;
+}

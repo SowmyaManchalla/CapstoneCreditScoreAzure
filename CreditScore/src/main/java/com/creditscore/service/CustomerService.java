@@ -1,0 +1,29 @@
+package com.creditscore.service;
+
+import java.util.List;
+
+import com.creditscore.entity.AuditLog;
+import com.creditscore.entity.CreditHistory;
+import com.creditscore.entity.CreditScore;
+import com.creditscore.entity.CustomerProfile;
+
+public interface CustomerService {
+	
+	CustomerProfile saveCustomerProfile(CustomerProfile customerProfile);
+	CustomerProfile getCustomerProfile(Long customerId);
+	CustomerProfile updateCustomerProfile(Long customerId, CustomerProfile customerProfile);
+	
+	void deleteCustomerProfile(Long customerId);
+	
+	CreditHistory saveCreditHistory(CreditHistory creditHistory, Long customerId);
+	CreditHistory getCreditHistory(Long historyId);
+	
+	CreditHistory updateCreditHistory(Long historyId, CreditHistory creditHistory);
+	CreditScore getCreditScore(Long scoreId);
+	CreditScore generateCreditScore(Long customerId);
+	
+	AuditLog saveAuditLog(AuditLog auditLog);
+	
+	List<AuditLog> getAuditLogs();
+
+}

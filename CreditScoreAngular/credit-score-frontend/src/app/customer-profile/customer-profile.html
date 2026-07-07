@@ -1,0 +1,25 @@
+<div class = "profile-container">
+    <h2>Customer Profile Management</h2>
+    <form [formGroup]="profileForm" class = "profile-form">
+        <div class = "search-box">
+            <input type = "number" formControlName = "customerId" placeholder = "Enter Customer ID"/>
+            <button type = "button"  (click) = "getProfile()">Fetch Profile</button>
+        </div>
+        <div class = "form-grid">
+            <input type = "text" formControlName = "firstName" placeholder = "First Name"/>
+            <input type = "text" formControlName = "lastName" placeholder = "Last Name"/>
+            <input type = "email" formControlName = "email" placeholder = "Email Address"/>
+            <input type = "text" formControlName = "mobile" placeholder = "Mobile Number"/>
+            <input type = "text" formControlName = "occupation" placeholder = "Occupation"/>
+            <input type = "text" formControlName = "monthlyIncome" placeholder = "Monthly Income"/>
+            <input type = "number" formControlName = "employmentYears" placeholder = "Employment Years"/>
+        </div>
+        <div class = "button-group">
+
+            <button type = "button" (click) = "createProfile()">Create</button>
+            <button type = "button" (click) = "updateProfile()">Update</button>
+            <button type = "button" class = "delete-btn" (click) = "deleteProfile()">Delete Profile</button>
+        </div>    
+    </form>
+</div>
+

@@ -1,0 +1,22 @@
+<div class = "login-wrapper">
+    <div class = "login-card">
+        <h2 class = "title">Credit Score management system</h2>
+        <p class = "Subtitle">Secure Login</p>
+        <form [formGroup] = "loginForm" (ngSubmit) = "login()">
+        <div class = "form-group">
+            <label>Username</label>
+            <input type = "text"
+            formControlName = "username"
+            placeholder = "Enter username"/>
+        </div>
+        <div class = "form-group">
+            <label>Password</label>
+            <input type = "password"
+             formControlName = "password"
+            placeholder = "Enter password"/>
+        </div>
+       <button type = "submit" class = "login-btn" [disabled]="!loginForm.valid">Login</button>
+    <button type = "button" class = "register-link" routerLink = "/register">New User ?  Register here</button>
+</form>
+</div>
+</div>

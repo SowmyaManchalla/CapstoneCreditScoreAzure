@@ -1,0 +1,148 @@
+.profile-container
+{
+    max-width:900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.8);
+    font-family:Arial, Helvetica, sans-serif;
+
+}
+.profile-container h2
+{
+    text-align: center;
+    margin-bottom: 25px;
+    color:#1f2d3d;
+    font-size:26px;
+    font-weight:600;
+}
+.profile-form
+{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+.search-box
+{
+    display:flex;
+    gap:10px;
+}
+.search-box input
+{
+    flex:1;
+    padding: 12px;
+    border:1px solid #d0d7de;
+    border-radius:10px;
+    font-size:  14px;
+    outline:none;
+    transition: 0.2s;
+}
+
+.search-box input:focus{
+    border-color:#4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+.search-box button
+{
+    padding: 12px 18px;
+    background-color:#4a90e2;
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.search-box button:hover
+{
+    background-color:#357ABD;
+}
+
+.form-grid
+{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}
+
+.form-grid input
+{
+    padding: 12px;
+    border:1px solid #d0d7de;
+    border-radius:10px;
+    font-size:  14px;
+    outline:none;
+    transition: 0.2s;
+}
+
+.form-grid input:focus{
+    border-color:#4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+.btn-group
+{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:20px;
+}
+.btn-group button
+{
+    padding: 12px 20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    min-width: 120px;
+}
+
+.btn-group button:first-child{
+    background-color:#28a745;
+    color:#fff;
+}
+
+.btn-group button:first-child:hover{
+    background-color:#218838;
+}
+
+.btn-group button:nth-child(2){
+    background-color:#ffc107;
+    color:#fff;
+}
+
+.btn-group button:nth-child(2):hover{
+    background-color:#e0a800;
+}
+.delete-btn{
+    background-color:#dc3545 !important;
+    color:#fff;
+}
+
+.delete-btn:hover{
+    background-color:#c82333 !important;
+}
+
+@media(max-width:768px)
+{
+    .form-grid
+    {
+        grid-template-columns: 1fr;
+    }
+    .search-box
+    {
+        flex-direction:column;
+    }
+    .btn-group
+    {
+        flex-direction:column;
+        align-items:center;
+    }
+    .btn-group button
+    {
+        width:100%;
+    }
+}
