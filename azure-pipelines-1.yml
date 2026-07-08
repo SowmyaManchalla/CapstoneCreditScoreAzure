@@ -52,9 +52,9 @@ steps:
 
     echo ""
 
-    echo "===== frontend/employee ====="
+    echo "===== frontend/creditscore ====="
 
-    ls -la frontend/employee
+    ls -la CreditScoreAngular/credit-score-frontend
 
   displayName: 'Debug Repository Structure'
  
@@ -64,7 +64,7 @@ steps:
 
     npm install
 
-  workingDirectory: 'frontend/employee'
+  workingDirectory: 'CreditScoreAngular/credit-score-frontend'
 
   displayName: 'Install Angular Packages'
  
@@ -74,7 +74,7 @@ steps:
 
     npm run build
 
-  workingDirectory: 'frontend/employee'
+  workingDirectory: 'CreditScoreAngular/credit-score-frontend'
 
   displayName: 'Build Angular'
  
@@ -84,7 +84,7 @@ steps:
 
   inputs:
 
-    PathtoPublish: 'frontend/employee/dist'
+    PathtoPublish: 'CreditScoreAngular/credit-score-frontend/dist'
 
     ArtifactName: 'Angular'
 
@@ -98,13 +98,13 @@ steps:
 
   inputs:
 
-    mavenPomFile: 'backend/demo/pom.xml'
+    mavenPomFile: 'CreditScore/pom.xml'
 
     goals: 'clean package -DskipTests'
 
     javaHomeOption: 'JDKVersion'
 
-    jdkVersionOption: '21'
+    jdkVersionOption: '17'
 
     mavenVersionOption: 'Default'
 
@@ -118,7 +118,7 @@ steps:
 
   inputs:
 
-    PathtoPublish: 'backend/demo/target'
+    PathtoPublish: 'CreditScore/target'
 
     ArtifactName: 'SpringBoot'
 
