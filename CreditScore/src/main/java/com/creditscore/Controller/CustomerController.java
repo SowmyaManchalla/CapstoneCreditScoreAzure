@@ -22,6 +22,7 @@ import com.creditscore.entity.AuditLog;
 import com.creditscore.entity.CreditHistory;
 import com.creditscore.entity.CreditScore;
 import com.creditscore.entity.CustomerProfile;
+import com.creditscore.repository.AuditLogRepository;
 import com.creditscore.service.CustomerService;
 
 @RequestMapping("/customer")
@@ -62,12 +63,25 @@ public class CustomerController {
 		return customerService.updateCustomerProfile(id, customerProfile);
 	}
 	@DeleteMapping("/profile/{id}")
-	public String deleteCustomerProfile(@PathVariable Long id)
+	/*public String deleteCustomerProfile(@PathVariable Long id)
 	{
 		customerService.deleteCustomerProfile(id);
 		
 		return "Customer Profile deleted successfully";
+	}*/
+	public ResponseEntity<?> deleteCustomerProfile(@PathVariable Long id)
+	{
+	try
+	{
+		customerService.deleteCustomerProfile(id);
+		return ResponseEntity.ok("Deleted successfully");
 	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error:" +e.getMessage());
+	}
+}
 	
 	@PostMapping("/{id}/history")
 	public CreditHistory saveCreditHistory(@RequestBody CreditHistory creditHistory,@PathVariable Long id)
@@ -114,8 +128,10 @@ public class CustomerController {
 	@GetMapping("/score/{id}")
 	public CreditScore getCreditScore(@PathVariable Long id)
 	{
+		System.out.println("Get Credit Score Hit:");
 		return customerService.getCreditScore(id);
 	}
+	
 	@PostMapping("/audit-log")
 	public AuditLog saveAuditLog
 	(@RequestBody AuditLog auditLog)
@@ -126,6 +142,22 @@ public class CustomerController {
 	@GetMapping("/audit-logs")
 	public List<AuditLog> getAuditLogs()
 	{
+		
 		return customerService.getAuditLogs();
 	}
+   
+	@GetMapping("/{id}/logs")
+	public ResponseEntity<?> getCustomerAuditLogs(@PathVariable Long id)
+	{
+		try
+		{
+			List<AuditLog> logs = customerService.getAuditLogsByCustomerId(id);
+			return ResponseEntity.ok(logs);
+		}
+		catch(Exception e)
+		{
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(java.util.Map.of("error","Could not fetch audit logs:" +e.getMessage()));
+		}
+	}
+	
 }

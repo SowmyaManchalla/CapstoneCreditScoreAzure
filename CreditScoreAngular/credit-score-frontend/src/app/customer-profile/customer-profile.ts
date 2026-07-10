@@ -89,7 +89,7 @@ updateProfile()
 deleteProfile()
 {
   const id = this.profileForm.get('customerId')?.value;
-  if(!id)
+  if(id === null || id === undefined || id === '')
   {
     alert('Customer ID is required to delete a profile');
     return;
@@ -101,7 +101,9 @@ deleteProfile()
     },
     error: (err) => {
       console.error('Error deleting profile:', err);
-      alert(`Failed to delete profile. Status: ${err.status}`);
+      //alert(`Failed to delete profile. Status: ${err.status}`);
+      const errorMessage = err.error?.message || 'Profile already deleted';
+      alert(errorMessage);
     }
   });
 }

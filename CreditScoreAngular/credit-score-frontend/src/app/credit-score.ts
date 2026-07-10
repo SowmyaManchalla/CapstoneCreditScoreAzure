@@ -34,7 +34,9 @@ export class CreditScoreService {
   }
   getScore(customerId: number): Observable<any>
   {
+     const baseUrl = `${this.baseUrl}/score/${customerId}`;
+     console.log("GET SCORE URL:", baseUrl);
     return this.http.get<any>
-    (`{this.baseUrl}/all`);
+    (baseUrl,{headers:this.getAuthHeaders()});
   }
 }

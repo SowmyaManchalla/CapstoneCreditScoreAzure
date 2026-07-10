@@ -1,1 +1,54 @@
-<h2>Audit Log page</h2>
+<div class = "container">
+    <h2>Audit Log Management</h2>
+    <form [formGroup] = "auditForm">
+
+        <label>Customer ID</label>
+
+        <input type = "number" formControlName = "customerId">
+
+        <label> Action </label>
+
+        <input type = "text" formControlName = "action">
+
+        <label>Action Time</label>
+
+        <input type ="datetime-local" formControlName="actionTime">
+        <br><br>
+
+        <button type = "button" (click) = "saveAuditLog()"> Save Audit Log</button>
+    </form>
+   <br>
+
+        <button (click) = "loadAuditLogs()">Load Audit Logs</button>
+
+        <div style = "display: flex; gap: 8px; align-items: center; border-left: 2px solid #ccc; padding-left: 20px">
+            <input type = "number"
+            [(ngModel)]="searchId"
+            placeholder = "Enter customer ID(e.g.18)"
+            style = "padding:4px; width:100px;">
+            <button (click) = "fetchAuditLogsByCustomerId()">Get Audit Log</button>
+        </div>
+    
+
+    <table *ngIf = "auditLogs.length > 0">    
+        <thead>
+            <tr>
+                <th>Log ID</th>
+                <th>Action</th>
+                <th>Action Time</th>
+            </tr> 
+            </thead>
+
+            <tbody>
+            <tr *ngFor = "let log of auditLogs">
+                <td>{{log.logId}}</td>
+                <td>{{log.action}}</td>
+                <td>{{log.actionTime}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p *ngIf = "isLoadingLogs">Loading audit logs</p>
+    <p *ngIf = "hasLoadedLogs && !isLoadingLogs && auditLogs.length===0">No Audit Logs found!! </p>
+</div>
+
+  

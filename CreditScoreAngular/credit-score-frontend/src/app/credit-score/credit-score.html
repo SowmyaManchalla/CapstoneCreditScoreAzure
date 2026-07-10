@@ -1,6 +1,6 @@
 <div class = "Score-container">
     <h2>Credit Score Generator</h2>
-    <form [formGroup] = "scoreForm">
+    <form [formGroup] = "generateScoreForm">
         <input 
           type ="number"
           formControlName = "customerId"
@@ -13,12 +13,24 @@
            {{ isProcessing ? 'Generating....': 'Generate credit score' }}
         </button>
     </form>
+    <hr>
     <div class = "result" *ngIf = "creditScore">
         <h3>Generated Credit Score</h3>
         <p><strong>Score: </strong>{{ creditScore?.score }}</p>
        </div> 
     <p><strong>Risk category: </strong>{{ creditScore?.riskCategory }}</p>
     <p><strong>Generated Date:</strong>{{ creditScore?.generatedDate | date: 'medium'}}</p>
-    
-    </div>
+</div>
+     <form [formGroup] = "getScoreForm">
+         <h2>Credit Score Details</h2>
+        <input type = "number" formControlName = "searchCustomerId" placeholder ="Enter Score ID"/>
+        
+        
+       <button type = "button" class ="get-score-btn" [disabled] = "isGettingScore"
+       (click) = "getScore()">
+        
+       {{ isGettingScore ? 'Getting...': 'Get Credit Score'}}
+        </button>
+</form>
+
     

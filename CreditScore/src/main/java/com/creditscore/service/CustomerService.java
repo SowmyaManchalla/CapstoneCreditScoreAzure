@@ -25,5 +25,6 @@ public interface CustomerService {
 	AuditLog saveAuditLog(AuditLog auditLog);
 	
 	List<AuditLog> getAuditLogs();
+	List<AuditLog> getAuditLogsByCustomerId(Long customerId);
 
 }

@@ -1,110 +1,98 @@
 import { Component,OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreditHistoryService } from '../credit-history.service';
 
 @Component({
   selector: 'app-credit-history',
   standalone:true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,FormsModule],
   templateUrl: './credit-history.html',
   styleUrl: './credit-history.css',
 })
-export class CreditHistoryComponent implements OnInit{
+export class CreditHistoryComponent {
   creditForm!: FormGroup;
-  customerId: number = 14;
+  customerId: number | null = null;
   historyId :number | null = null;
+  isEditMode:  boolean = false;
 
   constructor(private fb: FormBuilder,
-    private creditHistoryService: CreditHistoryService) {}
+    private creditHistoryService: CreditHistoryService) {
 
-ngOnInit():void{
+
 
   this.creditForm = this.fb.group({
-    totalLoans:['',[Validators.required,Validators.min(0)]],
-    activeLoans:['',[Validators.required,Validators.min(0)]],
-    latePayments:['',[Validators.required,Validators.min(0)]],
-    defaults:['',[Validators.required,Validators.min(0)]],
-    creditCardUsage:['',[Validators.required,Validators.min(0),Validators.max(100)]]
+    totalLoans:['',[Validators.required]],
+    activeLoans:['',[Validators.required]],
+    latePayments:['',[Validators.required]],
+    defaults:['',[Validators.required]],
+    creditCardUsage:['',[Validators.required]]
   });
 }
-  onSubmit(): void
+
+onLoadHistory()
+{
+  console.log(" Value of customerID inside component:",this.customerId);
+  if(!this.customerId) 
   {
-    if(this.creditForm.invalid)
+    alert("Error: The customer ID is empty. Did you type it in the box?");
+  return;
+}
+  this.creditHistoryService.getCreditHistory(this.customerId).subscribe({
+    next:(res:any) =>
     {
-      this.creditForm.markAllAsTouched();
-      alert('Please fill in all required fields correctly before submitting.');
+      this.creditForm.patchValue(res);
+      this.historyId = res.id; // Store ID from server
+      this.isEditMode = true; //Switch to update mode
+      console.log("Record found, History ID:",this.historyId);
+    },
+    error:() =>
+    {
+      alert('No record found. You can save a new one');
+      this.onClear();
+  
+    }
+  });
+}
+
+onSubmit()
+{
+  if(this.creditForm.invalid )
+    {
+      alert("Please alert all the fields");
+    return;
+    }
+
+  if(this.isEditMode && this.historyId)
+
+  {
+     this.creditHistoryService.updateCreditHistory(this.historyId,this.creditForm.value).subscribe({
+      next:() => alert('Profile updated successfully'),
+      error:(err) =>console.error("Update failed:",err)
+     });
+  } else
+  {
+    if(!this.customerId)
+    {
+      alert("Enter a customer ID first!");
       return;
     }
-     console.log("Crucial check - current customer ID being sent:", this.customerId);
-    const formData = this.creditForm.value;
-
-    if(this.historyId)
-    {
-      this.creditHistoryService.updateCreditHistory(this.historyId,{historyId:this.historyId,...formData})
-      .subscribe({
-        next:(res:any) => alert('Credit history updated successfully'),
-        error:(err: any)=>console.error('Update failed:',err)
-      });
-    }else
-    {
-      console.log("Form data being sent to the service", formData);
-      if(!formData || Object.keys(formData). length===0)
+    this.creditHistoryService.saveCreditHistory(this.customerId,this.creditForm.value).subscribe(
       {
-        alert("Cannot save : Form data is empty.Please fill out all the fields");
-        console.error("Save aborted: formData is null or empty");
-          return;
-      }
-      this.creditHistoryService.saveCreditHistory(this.customerId,formData)
-      .subscribe({
-        next:(res: any) => {
-          alert('Credit history saved successfully');
-          if(res && res.historyId)
-          {
-            this.historyId = res.historyId;
-          }
-      
+        next:() =>{
+
+         alert('Profile saved successfully');
+         this.isEditMode = true;
         },
-        error:(err: any)=>
-          {console.error('Save failed:',err);
-        alert('Save failed ! Check the console ');
-          }
+        error:(err) => console.error("Save failed:",err)
       });
-    }
   }
-  onLoadHistory(searchId:string):void
+  }
+
+  onClear()
   {
-    const id = parseInt(searchId,10);
-    if(!id) {
-      alert('Please enter a valid numeric ID');
-      return;
-    }
-
-    this.creditHistoryService.getCreditHistory(id).subscribe({
-      next:(res: any) =>{
-
-        console.log('Database payload received:',res);
-
-        if(res && (res.history!==undefined || res.historyId!==undefined))
-        {
-          
-    this.historyId = res.historyId ?? res.historyId ?? null;
-    this.creditForm.patchValue({
-      totalLoans: res.totalLoans,
-      activeLoans: res.activeLoans,
-      latePayments: res.latePayments,
-      defaults: res.defaults,
-      creditCardUsage: res.creditCardUsage
-    });
-    alert('Success: Credit history record loaded for ID ${id}!');
-
-  }else{
-    console.warn('Backend returned an empty response for ID:${id}');
-    alert('Notice: Server processed request, but no matching credit history fields are populated for ID: ${id}');
     this.creditForm.reset();
-    this.historyId=null;
+    this.customerId = null;
+    this.historyId = null;
+    this.isEditMode = false;
   }
-},
-  error:(err: any) => alert('Could not find credit history record')
-    });
-  }
-  }
+}

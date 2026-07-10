@@ -1,47 +1,23 @@
 <div class = "container">
     <h2>Manage Credit History</h2>
-        <div class = "row">
-            <input type = "number" #searchId placeholder = "Enter history ID to load">
-            <button type = "button" (click)="onLoadHistory(searchId.value)">Load</button>
-        </div>
-        <hr style ="margin: 20px 0; border:0; border-top: 1px solid #eee;"/>
-        <form [formGroup] = "creditForm" (ngSubmit)="onSubmit()">
-            <div class = "row">
-                <input type = "number"
-                formControlName = "totalLoans"
-                placeholder = "Total Loans"
-                [style.border-color] = "creditForm.get('totalLoans')?.invalid && creditForm.get('totalLoans')?.touched? 'red':'#ccc'">
-                <input type = "number"
-                formControlName = "activeLoans"
-                placeholder = "Active Loans"
-                [style.border-color]="creditForm.get('activeLoans')?.invalid && creditForm.get('activeLoans')?.touched? 'red': '#ccc'">
-                </div>
-                <div class = "row">
-                    <input type ="number"
-                    formControlName = "latePayments"
-                    placeholder = "Late Payments"
-                    [style.border-color]="creditForm.get('latePayments')?.invalid && creditForm.get('latePayments')?.touched? 'red':'#ccc'">
-                     
-                    <input type = "number"
-                    formControlName = "defaults"
-                    placeholder ="Defaults"
-                    [style.border-color]="creditForm.get('defaults')?.invalid && creditForm.get('defaults')?.touched? 'red':'#ccc'">
-                    </div>
-                    <div class = "row">
-                        <input type = "number"
-                               step ="0.01"
-                               formControlName="creditCardUsage"
-                               placeholder ="Credit Card Usage(%)"
-                               [style.border-color]="creditForm.get('creditCardUsage')?.invalid && creditForm.get('creditCardUsage')?.touched? 'red':'#ccc'">
-                    </div>
-                    <div class = "buttons">
-                        <button type = "submit"
-                        [disabled]="creditForm.invalid"
-                        [style.opacity]="creditForm.invalid? '0.6':'1'"
-                        [style.cursor]="creditForm.invalid? 'not-allowed':'pointer'">
-                    {{ historyId ? 'Update': 'Save'}} Credit History</button>
+    <div class = "row">
+        <input type = "number" name ="CustomerId" [(ngModel)]="customerId" placeholder = "Enter Customer ID">
+        <button type = "button" (click)="onLoadHistory()">Load Profile</button>
+    </div>
+    <hr>
 
-                    <button type = "button" style ="background:#f44336;" (click)="creditForm.reset(); historyId = null;">Clear</button>
-                    </div>
-                    </form>
-</div>
+    <form [formGroup]="creditForm" (ngSubmit) = "onSubmit()">
+        <input type = "number" formControlName = "totalLoans" placeholder = "Total Loans">
+         <input type = "number" formControlName = "activeLoans" placeholder = "Active Loans">
+          <input type = "number" formControlName = "latePayments" placeholder = "Late payments">
+           <input type = "number" formControlName = "defaults" placeholder = "Defaults">
+            <input type = "number" formControlName = "creditCardUsage" placeholder = "Usage %">
+             
+            <div class = "buttons">
+            <button type = "submit" [disabled] = "creditForm.invalid">
+                {{ isEditMode ? 'Update Profile' : 'Save Profile' }}
+            </button>
+            <button type = "button" (click) = "onClear()">Clear</button>
+            </div>
+    </form>
+    </div>

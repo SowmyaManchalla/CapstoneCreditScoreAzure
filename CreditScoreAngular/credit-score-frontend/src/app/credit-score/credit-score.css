@@ -44,3 +44,11 @@ button:hover{
     font-size: 16px;
     margin: 10px 0;
 }
+.get-score-btn
+{
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size:16px;
+    border-radius:5px;
+    cursor:pointer;
+}

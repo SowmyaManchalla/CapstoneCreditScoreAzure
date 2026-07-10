@@ -17,6 +17,8 @@ import com.creditscore.repository.CreditHistoryRepository;
 import com.creditscore.repository.CreditScoreRepository;
 import com.creditscore.repository.CustomerProfileRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CustomerServiceImpl implements CustomerService{
 	
@@ -56,9 +58,17 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerProfileRepository.save(customerProfile);
 	}
 
+	@Transactional
 	@Override
 	public void deleteCustomerProfile(Long customerId)
 	{
+		if(!customerProfileRepository.existsById(customerId))
+		{
+			throw new RuntimeException("Profile already deleted");
+		}
+		creditHistoryRepository.deleteByCustomerId(customerId);
+		creditScoreRepository.deleteByCustomerId(customerId);
+		
 		customerProfileRepository.deleteById(customerId);
 		
 	}
@@ -175,6 +185,13 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<AuditLog> getAuditLogs()
 	{
 		return auditLogRepository.findAll();
+	}
+
+
+	@Override
+	public List<AuditLog> getAuditLogsByCustomerId(Long customerId) {
+		// TODO Auto-generated method stub
+		return auditLogRepository.findByCustomer_CustomerId(customerId);
 	}
 	
 	

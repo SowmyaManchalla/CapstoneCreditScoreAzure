@@ -13,9 +13,11 @@ import { CreditScoreService } from '../credit-score';
 })
 export class CreditScore {
 
-  scoreForm: FormGroup;
+  generateScoreForm!: FormGroup;
+  getScoreForm!: FormGroup;
   creditScore: any = null;
   isProcessing: boolean = false;
+  isGettingScore = false;
 
   
   constructor(
@@ -24,9 +26,12 @@ export class CreditScore {
     private cdr: ChangeDetectorRef  
   )
   {
-    this.scoreForm = this.fb.group
+    this.generateScoreForm = this.fb.group
     ({
       customerId: ['']
+    });
+    this.getScoreForm = this.fb.group({
+      searchCustomerId:['']
     });
   }
   generateScore()
@@ -35,7 +40,7 @@ export class CreditScore {
     this.isProcessing = true;
     this.creditScore = null;
 
-    const id = this.scoreForm.value.customerId;
+    const id = this.generateScoreForm.value.customerId;
     console.log("Attempting to generate score for customer ID:",id);
 
     this.service.generateScore(id).subscribe({
@@ -56,5 +61,33 @@ export class CreditScore {
       }
     });
   }
+
+  getScore()
+  {
+
+    this.isGettingScore = true;
+    const id = this.getScoreForm.value.searchCustomerId;
+    console.log("Attempting to get score for customer ID:",id);
+    
+     
+    this.service.getScore(id).subscribe({
+      next: (data : any) =>
+      {
+        console.log("Successfully received data from backend:", data);
+        this.creditScore = data;
+        this.isGettingScore = false;
+        this.cdr.detectChanges();
+      },
+
+      error: (err : any)=>
+      {
+        console.log("Full error object received from backend:", err);
+        alert("Unable to fetch credit score");
+        this.isGettingScore = false;
+         this.cdr.detectChanges();
+      }
+    });
+  }
+
   
 }

@@ -37,7 +37,7 @@ export class Customer {
   }
 
   deleteProfile(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, {headers: this.getAuthHeaders()});
+    return this.http.delete(`${this.baseUrl}/${id}`, {headers: this.getAuthHeaders(), responseType: 'text' as 'json'});
   }
 
 }
