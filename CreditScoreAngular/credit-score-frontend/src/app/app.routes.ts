@@ -8,6 +8,7 @@ import { AuditLogComponent } from './audit-log/audit-log';
 import { CreditScore } from './credit-score/credit-score';
 import { ReportComponent } from './report/report';
 
+
 export const routes: Routes = [
     { path: '', component: Login },
     { path: 'login', component: Login },
@@ -17,5 +18,5 @@ export const routes: Routes = [
     { path: 'audit-log', component: AuditLogComponent },
     { path: 'credit-score', component: CreditScore },
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'report', component:ReportComponent }
+    { path: 'report', component:ReportComponent}
 ];

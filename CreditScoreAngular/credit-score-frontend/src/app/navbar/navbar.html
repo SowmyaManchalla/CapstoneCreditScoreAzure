@@ -1,10 +1,16 @@
 <nav class = "navbar">
-<a routerLink = "/login">Login</a>
-<a routerLink = "/register">Register</a>
+    <div *ngIf = "!isLoggedIn">
+        <a routerLink = "/login">Login </a>
+         <a routerLink = "/register">Register</a>
+    </div>
+
+ <div *ngIf="isLoggedIn">
 <a routerLink = "/customer-profile">Customer Profile</a>
 <a routerLink = "/credit-score"> Credit Score </a>
 <a routerLink = "/credit-history">Credit History</a>
 <a routerLink = "/audit-log">Audit Log</a>
 <a routerLink = "/dashboard">Dashboard</a>
 <a routerLink = "/report">Reports</a>
+<button (click) = "logout()">Logout</button>
+</div>
 </nav>

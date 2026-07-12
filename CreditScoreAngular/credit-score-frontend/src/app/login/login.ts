@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule,Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { Auth } from '../auth';
@@ -14,7 +14,7 @@ import { Auth } from '../auth';
 export class Login implements OnInit {
   
 loginForm!: FormGroup;
-constructor(private fb:FormBuilder,private auth: Auth){}
+constructor(private fb:FormBuilder,private auth: Auth, private router: Router){}
 
 ngOnInit():void{
   this.loginForm = this.fb.group({
@@ -31,7 +31,12 @@ ngOnInit():void{
     this.auth.login(this.loginForm.value).subscribe({
       next: (res: any) =>
         {console.log("Login SUCCESS:",res);
+          localStorage.setItem('loggedIn', 'true');
+          window.location.reload();
       alert( "Login successful");
+      this.router.navigate(['/dashboard']);
+      window.location.reload();
+      
     },
     error:(err: any) =>
     {
