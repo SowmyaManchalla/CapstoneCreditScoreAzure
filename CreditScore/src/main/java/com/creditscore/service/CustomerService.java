@@ -12,13 +12,17 @@ public interface CustomerService {
 	CustomerProfile saveCustomerProfile(CustomerProfile customerProfile);
 	CustomerProfile getCustomerProfile(Long customerId);
 	CustomerProfile updateCustomerProfile(Long customerId, CustomerProfile customerProfile);
+	List<CustomerProfile> getAllCustomerProfiles();
+	
 	
 	void deleteCustomerProfile(Long customerId);
 	
 	CreditHistory saveCreditHistory(CreditHistory creditHistory, Long customerId);
-	CreditHistory getCreditHistory(Long historyId);
-	
+	CreditHistory getCreditHistoryByCustomerId(Long customerId);
 	CreditHistory updateCreditHistory(Long historyId, CreditHistory creditHistory);
+	List<CreditHistory> findAllCreditHistory();
+	List<CreditScore> getAllScores();
+	
 	CreditScore getCreditScore(Long scoreId);
 	CreditScore generateCreditScore(Long customerId);
 	

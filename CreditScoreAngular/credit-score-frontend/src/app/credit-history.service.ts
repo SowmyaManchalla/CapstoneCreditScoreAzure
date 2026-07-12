@@ -10,6 +10,7 @@ export interface CreditHistory {
   latePayments: number;
   defaults: number;
   creditCardUsage: number;
+  customerId: number;
 }
 @Injectable({
   providedIn: 'root',
@@ -36,12 +37,12 @@ export class CreditHistoryService {
     return this.http.post<CreditHistory>(`${this.baseUrl}/${customerId}/history`, data,{headers: this.getAuthHeaders()});
   }
 
-getCreditHistory(historyId: number): Observable<CreditHistory>
+getCreditHistoryByCustomerId(customerId: number): Observable<CreditHistory>
 {
-  return this.http.get<CreditHistory>(`${this.baseUrl}/history/${historyId}`);
+  return this.http.get<CreditHistory>(`${this.baseUrl}/history/${customerId}`);
 }
 
-updateCreditHistory(historyId: number, formValue: CreditHistory): Observable<CreditHistory> {
-    return this.http.put<CreditHistory>(`${this.baseUrl}/history/${historyId}`, formValue,{headers: this.getAuthHeaders()});
+updateCreditHistory(customerId: number, formValue: CreditHistory): Observable<CreditHistory> {
+    return this.http.put<CreditHistory>(`${this.baseUrl}/history/${customerId}`, formValue,{headers: this.getAuthHeaders()});
   }
 }

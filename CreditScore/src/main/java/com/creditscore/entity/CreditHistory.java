@@ -23,8 +23,9 @@ public class CreditHistory {
 	private Double creditCardUsage;
 	
 	@OneToOne
-	@JoinColumn(name="customer_id")
+	@JoinColumn(name="customer_id", updatable = false, nullable = false)
 	@JsonBackReference
+	@JsonIgnore
 	private CustomerProfile customer;
 	
 	public CreditHistory()

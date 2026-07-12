@@ -74,6 +74,24 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	@Override
+	public List<CustomerProfile> getAllCustomerProfiles()
+	{
+		return customerProfileRepository.findAll();
+	}
+	
+	@Override
+	public List<CreditHistory> findAllCreditHistory()
+	{
+		return creditHistoryRepository.findAll();
+	}
+	
+	@Override
+	public List<CreditScore> getAllScores()
+	{
+		return creditScoreRepository.findAll();
+	}
+	
+	@Override
 	public CreditHistory saveCreditHistory(CreditHistory creditHistory, Long customerId)
 	{
 		CustomerProfile customer = customerProfileRepository.findById(customerId)
@@ -82,22 +100,39 @@ public class CustomerServiceImpl implements CustomerService{
 		creditHistory.setCustomer(customer);
 		return creditHistoryRepository.save(creditHistory);
 	}
-	
+	@Transactional
 	@Override
-	public CreditHistory updateCreditHistory(Long historyId,CreditHistory creditHistory)
+	public CreditHistory updateCreditHistory(Long id,CreditHistory incomingData)
 	{
-		creditHistory.setHistoryId(historyId);
 		
-		return creditHistoryRepository.save(creditHistory);
+		CreditHistory existingRecord = creditHistoryRepository.findById(id).orElseThrow(()-> new RuntimeException("Record not found"+id));
+		
+		existingRecord.setTotalLoans(incomingData.getTotalLoans());
+		existingRecord.setActiveLoans(incomingData.getActiveLoans());
+		existingRecord.setLatePayments(incomingData.getLatePayments());
+		existingRecord.setDefaults(incomingData.getDefaults());
+		existingRecord.setCreditCardUsage(incomingData.getCreditCardUsage());
+		
+		if(incomingData.getCustomer()!=null)
+		{
+			existingRecord.setCustomer(incomingData.getCustomer());
+		}
+		
+		
+		return 
+				creditHistoryRepository.save(existingRecord);
+	
 	}
 	
 	@Override
-	public CreditHistory getCreditHistory(Long historyId)
+	public CreditHistory getCreditHistoryByCustomerId(Long historyId)
 	{
 		Optional<CreditHistory> history = creditHistoryRepository.findById(historyId);
 		
 		return history.orElse(null);
 	}
+	
+	
 	
 	@Override
 	public CreditScore getCreditScore(Long scoreId)

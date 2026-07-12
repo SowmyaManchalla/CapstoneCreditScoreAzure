@@ -54,7 +54,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 	    .csrf(AbstractHttpConfigurer:: disable)
 	    .cors(cors->cors.configurationSource(corsConfigurationSource()))
 	    .authorizeHttpRequests(auth->auth
-	    .requestMatchers("/auth/**","/customer/**").permitAll()
+	    .requestMatchers("/auth/**","/customer/**","/history/**","/api/dashboard", "/api/reports/customer/{id}", "/customers", "/credit-history","/all-scores").permitAll()
 	    .anyRequest().authenticated()
 	    )
 	    .httpBasic(Customizer.withDefaults());

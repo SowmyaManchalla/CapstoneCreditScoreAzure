@@ -1,0 +1,42 @@
+<div class ="report-container">
+    <h2>Customer Credit Report</h2>
+    <div class = "search-box">
+        <label>
+            Customer ID:
+        </label>
+
+        <input type = "number" [(ngModel)] = "customerId" placeholder ="Enter Customer ID">
+        <button (click) = "getReport()"> Search</button>
+    </div>
+
+    @if(isLoading)
+    {
+        <p>Loading report data...</p>
+    }
+    @if(!isLoading && reportData){
+    <div class ="card">
+        <p>Data is loaded!</p>
+    
+        <h3>Report Details</h3>
+        <p>
+            <strong>Customer ID:</strong> {{ reportData.customerId }}
+        </p>
+
+        <p>
+            <strong>Customer Name:</strong> {{ reportData.customerName }}
+        </p>
+        
+        <p>
+            <strong>Credit Score:</strong> {{reportData.creditScore}}
+        </p>
+         <p>
+            <strong>Risk Category:</strong> {{ reportData.riskCategory }}
+        </p>
+    </div>
+}
+
+    @if(errorMessage){
+    <p class = "error">
+        {{ errorMessage }}
+    </p>
+}

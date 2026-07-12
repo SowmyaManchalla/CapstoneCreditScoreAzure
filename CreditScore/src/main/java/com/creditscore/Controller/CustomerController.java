@@ -33,6 +33,7 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
+	
 	@PostMapping("/profile")
 	/*public CustomerProfile saveCustomerProfile(@Valid @RequestBody CustomerProfile customerProfile)
 	{
@@ -82,6 +83,12 @@ public class CustomerController {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error:" +e.getMessage());
 	}
 }
+
+	@GetMapping("/customers")
+	public List<CustomerProfile> getAllCustomers()
+	{
+		return customerService.getAllCustomerProfiles();
+	}
 	
 	@PostMapping("/{id}/history")
 	public CreditHistory saveCreditHistory(@RequestBody CreditHistory creditHistory,@PathVariable Long id)
@@ -93,15 +100,29 @@ public class CustomerController {
 	
 	public CreditHistory getCreditHistory(@PathVariable Long id)
 	{
-		return customerService.getCreditHistory(id);
+		return customerService.getCreditHistoryByCustomerId(id);
 	}
 	
 	@PutMapping("/history/{id}")
-	public CreditHistory updateCreditHistory(@PathVariable Long id,@RequestBody CreditHistory creditHistory)
-	{
-		return customerService.updateCreditHistory(id, creditHistory);
+	public ResponseEntity<CreditHistory> updateCreditHistory(@PathVariable Long id,@RequestBody CreditHistory creditHistory)
+	{ 
+		if(creditHistory == null)
+		{
+			System.out.println("DEBUG: credithistory object is NULL");
+		} else
+		{
+			System.out.println("DEBUG: creditHistory object is NOT null");
+			System.out.println("DEBUG: TotalLoans = "+creditHistory.getTotalLoans());
+		}
+		
+		return ResponseEntity.ok(customerService.updateCreditHistory(id, creditHistory));
 	}
 	
+	@GetMapping("/credit-history")
+	public List<CreditHistory> getAllCreditHistory()
+	{
+		return customerService.findAllCreditHistory();
+	}
 	
 	@PostMapping("/generate-score/{id}")
 	/*public CreditScore generateCreditScore(@PathVariable Long id)
@@ -130,6 +151,12 @@ public class CustomerController {
 	{
 		System.out.println("Get Credit Score Hit:");
 		return customerService.getCreditScore(id);
+	}
+	
+	@GetMapping("/all-scores")
+	public List<CreditScore> getAllscores()
+	{
+		return customerService.getAllScores();
 	}
 	
 	@PostMapping("/audit-log")

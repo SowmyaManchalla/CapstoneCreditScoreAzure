@@ -26,6 +26,7 @@ public class CreditScore {
 	@JsonBackReference
 	private CustomerProfile customer;
 	
+	
 	public void setCustomer(CustomerProfile customer)
 	{
 		this.customer = customer;

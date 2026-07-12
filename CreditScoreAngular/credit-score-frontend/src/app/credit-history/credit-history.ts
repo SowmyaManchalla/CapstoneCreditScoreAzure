@@ -11,9 +11,10 @@ import { CreditHistoryService } from '../credit-history.service';
 })
 export class CreditHistoryComponent {
   creditForm!: FormGroup;
-  customerId: number | null = null;
-  historyId :number | null = null;
+  customerId: any;
+  historyId :any ;
   isEditMode:  boolean = false;
+  creditHistory: any;
 
   constructor(private fb: FormBuilder,
     private creditHistoryService: CreditHistoryService) {
@@ -37,53 +38,78 @@ onLoadHistory()
     alert("Error: The customer ID is empty. Did you type it in the box?");
   return;
 }
-  this.creditHistoryService.getCreditHistory(this.customerId).subscribe({
+  this.creditHistoryService.getCreditHistoryByCustomerId(this.customerId).subscribe({
     next:(res:any) =>
     {
+      console.log("Raw response from server:",res);
+      if(res && res.historyId) 
+      {
       this.creditForm.patchValue(res);
-      this.historyId = res.id; // Store ID from server
+     this.historyId = res.historyId;
+      this.creditHistory = res; // Store ID from server
       this.isEditMode = true; //Switch to update mode
-      console.log("Record found, History ID:",this.historyId);
-    },
-    error:() =>
+      console.log("Record found, History ID:",res.historyId);
+    }
+    else
+      {
+       console.warn("Server returned empty or invalid response:",res);
+        alert('No record found. You can save a new one');
+        this.onClear();
+        this.isEditMode = false;
+      }
+      },
+    error:(err) =>
     {
+      console.error("Server error:" ,err);
       alert('No record found. You can save a new one');
       this.onClear();
-  
+      this.isEditMode = false;
     }
   });
 }
 
 onSubmit()
 {
-  if(this.creditForm.invalid )
-    {
-      alert("Please alert all the fields");
-    return;
-    }
-
-  if(this.isEditMode && this.historyId)
+  const formData = this.creditForm.value;
+if(this.creditForm.invalid)
+{
+  alert('Please fill in all required fields');
+  return;
+}
+    if(this.isEditMode)
 
   {
-     this.creditHistoryService.updateCreditHistory(this.historyId,this.creditForm.value).subscribe({
-      next:() => alert('Profile updated successfully'),
-      error:(err) =>console.error("Update failed:",err)
+
+    const Payload = 
+    {
+      activeLoans: this.creditForm.value.activeLoans,
+      creditCardUsage : this.creditForm.value.creditCardUsage,
+      defaults: this.creditForm.value.defaults,
+      latePayments: this.creditForm.value.latePayments,
+      totalLoans: this.creditForm.value.totalLoans
+
+    };
+     this.creditHistoryService.updateCreditHistory(this.historyId, Payload as any).subscribe({
+      next:() => {
+        alert('Profile updated successfully');
+      },
+      error:(err) =>alert('Error updating record')
      });
   } else
   {
-    if(!this.customerId)
-    {
-      alert("Enter a customer ID first!");
-      return;
-    }
+   
     this.creditHistoryService.saveCreditHistory(this.customerId,this.creditForm.value).subscribe(
       {
-        next:() =>{
+        next:(res) =>{
 
          alert('Profile saved successfully');
          this.isEditMode = true;
+         this.historyId = res.historyId;
         },
-        error:(err) => console.error("Save failed:",err)
+        error:(err) => {
+          console.error("Create failed:", err);
+          alert('Error creating record')
+        }
       });
   }
   }

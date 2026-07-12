@@ -1,0 +1,73 @@
+.report-container
+{
+    width: 600px;
+    margin: 40px auto;
+    font-family: Arial,sans-serif;
+}
+
+h2{
+    text-align: center;
+    color: #2C3E50;
+    margin-bottom: 30px;
+}
+.search-box
+{
+    display:flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+label{
+    font-weight: bold;
+}
+input{
+    flex:1;
+    padding: 10px;
+    border : 1px solid #ccc;
+    border-radius: 6px;
+    font-size : 15px;
+}
+.button
+{
+    padding: 10px 20px;
+    background-color: #1976D2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-style:bold;
+
+}
+
+button:hover
+{
+    background-color: #125aa0;
+}
+
+.card
+{
+    margin-top: 30px;
+    padding: 25px;
+    background:white;
+    border-radius: 12px;
+    box-shadow: 0 4PX 12PX RGBA(0,0,0,0.15);
+    border-left: 6px solid #1976d2;
+}
+.card p{
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: px solid #eee;
+}
+.card-p:last-child
+    {
+        border-bottom:none;
+    }
+
+.report-container{
+    margin-top: 20px;
+    padding:12px;
+    background: #ffe6e6;
+    border-radius: 6px;
+    text-align: center;
+}
