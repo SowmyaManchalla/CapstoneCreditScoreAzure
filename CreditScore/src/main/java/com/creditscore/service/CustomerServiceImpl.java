@@ -107,6 +107,13 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		CreditHistory existingRecord = creditHistoryRepository.findById(id).orElseThrow(()-> new RuntimeException("Record not found"+id));
 		
+		/*System.out.println("Existing customer:" + existingRecord.getCustomer());
+		if(existingRecord.getCustomer()!= null)
+		{
+			System.out.println("Customer ID:"+ existingRecord.getCustomer().getCustomerId());
+		}
+		existingRecord.getCustomer().getCustomerId();*/
+		
 		existingRecord.setTotalLoans(incomingData.getTotalLoans());
 		existingRecord.setActiveLoans(incomingData.getActiveLoans());
 		existingRecord.setLatePayments(incomingData.getLatePayments());

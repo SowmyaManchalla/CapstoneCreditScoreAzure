@@ -24,8 +24,7 @@ public class CreditHistory {
 	
 	@OneToOne
 	@JoinColumn(name="customer_id", updatable = false, nullable = false)
-	@JsonBackReference
-	@JsonIgnore
+	@JsonBackReference("history-ref")
 	private CustomerProfile customer;
 	
 	public CreditHistory()

@@ -23,7 +23,7 @@ public class CreditScore {
 	
 	@OneToOne
 	@JoinColumn(name ="customer_id")
-	@JsonBackReference
+	@JsonBackReference("score-ref")
 	private CustomerProfile customer;
 	
 	

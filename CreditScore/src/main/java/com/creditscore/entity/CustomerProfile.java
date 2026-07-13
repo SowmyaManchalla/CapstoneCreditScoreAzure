@@ -30,11 +30,11 @@ public class CustomerProfile {
 	private Integer employmentYears;
 	
 	@OneToOne(fetch=FetchType.LAZY,mappedBy = "customer")
-	@JsonManagedReference
+	@JsonManagedReference("history-ref")
 	private CreditHistory creditHistory;
 	
 	@OneToOne(fetch=FetchType.LAZY,mappedBy = "customer")
-	@JsonManagedReference
+	@JsonManagedReference("score-ref")
 	private CreditScore creditScore;
 	
 	public CustomerProfile()

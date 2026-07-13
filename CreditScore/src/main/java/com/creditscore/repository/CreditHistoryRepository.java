@@ -14,9 +14,10 @@ import com.creditscore.entity.CreditHistory;
 public interface CreditHistoryRepository extends JpaRepository<CreditHistory,Long>{
 	
 
-  // CreditHistory findByCustomer_CustomerId(Long customerId);
+  CreditHistory findByCustomer_CustomerId(Long customerId);
 
 	@Modifying
 	@Query("DELETE from CreditHistory c where c.customer.customerId = :customerId")
 	void deleteByCustomerId(@Param("customerId") Long customerId);
+
 }
